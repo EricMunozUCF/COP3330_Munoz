@@ -25,6 +25,7 @@ public class App {
                     initializeList();
                     break;
                 case 2:   // load existing list
+                    existingList();
                     break;
                 case 3:    // quit app
                     return;
@@ -40,6 +41,19 @@ public class App {
         listOpMenuLoop(taskData);
     }
 
+    public static void existingList()
+    {
+        TaskList taskData = new TaskList();
+        Scanner scanner = new Scanner(System.in);
+        String filename;
+
+        System.out.printf("Enter the filename to load: ");
+        filename = scanner.nextLine();
+        taskData.loadList(filename);
+
+        System.out.printf("task list has been loaded");
+        listOpMenuLoop(taskData);
+    }
 
     public static void listOpMenuLoop(TaskList taskData)
     {
@@ -62,13 +76,16 @@ public class App {
                     addTask(taskData);
                     break;
                 case 3:   // edit an item
-                    editTask(taskData);
+                    modifyList(taskData);
                     break;
                 case 4:   // remove an item
+                    removeTask(taskData);
                     break;
                 case 5:   // mark an item as completed
+                    markTask(taskData);
                     break;
                 case 6:   // unmark an item as completed
+                    unMarkTask(taskData);
                     break;
                 case 7:   // save the current list
                     saveList(taskData);
@@ -112,31 +129,72 @@ public class App {
         System.out.printf("Task due date (YYYY-MM-DD): ");
         dueDate = scanner.nextLine();
 
-        /*
-        try {
-            Date dueDate = new SimpleDateFormat("yyyy-MM-dd").parse(scanner.nextLine());
-            dueDateStr = dueDate.toString();
-        } catch (ParseException e) {
-            System.out.printf("WARNING: invalid due date; task not created");
-        }
-        */
-
-        if (title == "")
-        {
-            System.out.printf("WARNING: title must be at least 1 character long; task not created");
-            return;
-        } else if (dueDate == "")
-        {
-            System.out.printf("WARNING: invalid due date; task not created");
-        }
-
         taskData.createTask(title, description, dueDate);
     }
 
 
-    public static void editTask(TaskList taskData)  // 3
+    public static void modifyList(TaskList taskData)    // 3
     {
+        Scanner scanner = new Scanner(System.in);
+        int chosenTask;
+        String title, description, dueDate;
         viewList(taskData);
+
+        System.out.printf("\nWhich task will you edit? ");
+        chosenTask = scanner.nextInt();
+        scanner.nextLine();
+        System.out.printf("Enter a new title for task %d: ", chosenTask);
+        title = scanner.nextLine();
+        System.out.printf("Enter a new description for task %d: ", chosenTask);
+        description = scanner.nextLine();
+        System.out.printf("Enter a new due date (YYYY-MM-DD) for task %d: ", chosenTask);
+        dueDate = scanner.nextLine();
+
+        taskData.editTask(chosenTask, title, description, dueDate);
+    }
+
+
+    public static void removeTask(TaskList taskData)    // 4
+    {
+        Scanner scanner = new Scanner(System.in);
+        int chosenTask;
+        viewList(taskData);
+
+        System.out.printf("\nWhich task will you remove? ");
+        chosenTask = scanner.nextInt();
+
+        taskData.destroyTask(chosenTask);
+
+    }
+
+
+    public static void markTask(TaskList taskData)  // 5
+    {
+        Scanner scanner = new Scanner(System.in);
+        int chosenTask;
+
+        System.out.printf("Uncompleted Tasks" + "\n-------------\n");
+        taskData.readInCompleteList();
+        System.out.printf("\n\nWhich task will you mark as completed? ");
+        chosenTask = scanner.nextInt();
+        scanner.nextLine();
+
+        taskData.markTask(chosenTask);
+    }
+
+
+    public static void unMarkTask(TaskList taskData) // 6
+    {
+        Scanner scanner = new Scanner(System.in);
+        int chosenTask;
+
+        System.out.printf("Completed Tasks" + "\n-------------\n");
+        taskData.readCompletedList();
+        System.out.printf("\n\nWhich task will you unmark as completed? ");
+        chosenTask = scanner.nextInt();
+        scanner.nextLine();
+
+        taskData.unMarkTask(chosenTask);
     }
 
 
