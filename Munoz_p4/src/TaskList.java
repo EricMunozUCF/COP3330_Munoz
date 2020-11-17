@@ -8,15 +8,15 @@ public class TaskList {
 
     public TaskList()
     {
-        taskData = new ArrayList<TaskItem>();
-        tasksCompleted = new ArrayList<TaskItem>();
-        tasksInComplete = new ArrayList<TaskItem>();
+        taskData = new ArrayList<>();
+        tasksCompleted = new ArrayList<>();
+        tasksInComplete = new ArrayList<>();
     }
 
     public void readList()
     {
         taskData.forEach((n) -> {
-            if (n.getCompleted() == true)
+            if (n.getCompleted())
                 System.out.printf("\n%d) *** [%s] %s: %s", taskData.indexOf(n), n.getDueDate(), n.getTitle(), n.getDescription());
             else
                 System.out.printf("\n%d) [%s] %s: %s", taskData.indexOf(n), n.getDueDate(), n.getTitle(), n.getDescription());
@@ -53,12 +53,10 @@ public class TaskList {
         }
         catch (Exception e) {
             System.out.printf(e.getMessage());
-            return;
         }
     }
 
-    public void editTask(int index, String title, String description, String dueDate)
-    {
+    public void editTask(int index, String title, String description, String dueDate) throws Exception {
         try
         {
             TaskItem taskToEdit = taskData.get(index);
@@ -71,7 +69,7 @@ public class TaskList {
         }
         catch (IndexOutOfBoundsException e)
         {
-            System.out.printf("WARNING: that task doesn't exist");
+            throw new Exception("WARNING: that task doesn't exist");
         }
         catch (Exception e)
         {
@@ -79,19 +77,17 @@ public class TaskList {
         }
     }
 
-    public void destroyTask(int index)
-    {
+    public void destroyTask(int index) throws Exception {
         try
         {
             taskData.remove(index);
         }
         catch (IndexOutOfBoundsException e) {
-            System.out.printf("WARNING: that task doesn't exist");
+            throw new Exception("WARNING: that task doesn't exist");
         }
     }
 
-    public void markTask(int index)
-    {
+    public void markTask(int index) throws Exception {
         try
         {
             TaskItem taskToMark = taskData.get(index);
@@ -100,12 +96,11 @@ public class TaskList {
         }
         catch (IndexOutOfBoundsException e)
         {
-            System.out.printf("WARNING: that task doesn't exist");
+            throw new Exception("WARNING: that task doesn't exist");
         }
     }
 
-    public void unMarkTask(int index)
-    {
+    public void unMarkTask(int index) throws Exception {
         try
         {
             TaskItem taskToUnMark = taskData.get(index);
@@ -114,7 +109,7 @@ public class TaskList {
         }
         catch (IndexOutOfBoundsException e)
         {
-            System.out.printf("WARNING: that task doesn't exist");
+            throw new Exception("WARNING: that task doesn't exist");
         }
     }
 
@@ -122,9 +117,7 @@ public class TaskList {
     {
         try (Formatter output = new Formatter(filename))
         {
-            taskData.forEach((n) -> {
-                output.format("%s\n%s\n%s\n\n", n.getTitle(), n.getDescription(), n.getDueDate());
-            });
+            taskData.forEach((n) -> output.format("%s\n%s\n%s\n\n", n.getTitle(), n.getDescription(), n.getDueDate()));
         }
         catch (SecurityException | FileNotFoundException | FormatterClosedException e)
         {
@@ -148,6 +141,16 @@ public class TaskList {
         catch (IOException | NoSuchElementException | IllegalStateException e)
         {
             e.printStackTrace();
+        }
+    }
+
+    // for JUnit Testing
+    public TaskItem getItem(int index) throws Exception {
+        try {
+            return taskData.get(index);
+        }
+        catch (IndexOutOfBoundsException e) {
+            throw new Exception("WARNING: that task doesn't exist");
         }
     }
 }

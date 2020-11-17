@@ -102,9 +102,8 @@ public class App {
         Scanner scanner = new Scanner(System.in);
 
         System.out.printf("\n\n> ");
-        int input = scanner.nextInt();
 
-        return input;
+        return scanner.nextInt();
     }
 
 
@@ -120,7 +119,7 @@ public class App {
     public static void addTask(TaskList taskData)   // 2
     {
         Scanner scanner = new Scanner(System.in);
-        String title, description, dueDate = "";
+        String title, description, dueDate;
 
         System.out.printf("Task title: ");
         title = scanner.nextLine();
@@ -150,7 +149,12 @@ public class App {
         System.out.printf("Enter a new due date (YYYY-MM-DD) for task %d: ", chosenTask);
         dueDate = scanner.nextLine();
 
-        taskData.editTask(chosenTask, title, description, dueDate);
+        try {
+            taskData.editTask(chosenTask, title, description, dueDate);
+        }
+        catch (Exception e) {
+            System.out.printf(e.getMessage());
+        }
     }
 
 
@@ -163,8 +167,12 @@ public class App {
         System.out.printf("\nWhich task will you remove? ");
         chosenTask = scanner.nextInt();
 
-        taskData.destroyTask(chosenTask);
-
+        try {
+            taskData.destroyTask(chosenTask);
+        }
+        catch (Exception e) {
+            System.out.printf(e.getMessage());
+        }
     }
 
 
@@ -179,7 +187,12 @@ public class App {
         chosenTask = scanner.nextInt();
         scanner.nextLine();
 
-        taskData.markTask(chosenTask);
+        try {
+            taskData.markTask(chosenTask);
+        }
+        catch (Exception e) {
+            System.out.printf(e.getMessage());
+        }
     }
 
 
@@ -194,7 +207,12 @@ public class App {
         chosenTask = scanner.nextInt();
         scanner.nextLine();
 
-        taskData.unMarkTask(chosenTask);
+        try {
+            taskData.unMarkTask(chosenTask);
+        }
+        catch (Exception e) {
+            System.out.printf(e.getMessage());
+        }
     }
 
 
