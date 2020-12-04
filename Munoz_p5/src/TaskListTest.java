@@ -4,14 +4,15 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TaskListTest {
 
     @Test
-    public void addingTaskItemsIncreasesSize() {        // TODO make JUnit work with reading the console
+    public void addingTaskItemsIncreasesSize() {
         TaskList list = new TaskList();
+        int size;
         list.createTask("title", "", "2020-01-01");
+        size = list.getTaskSize();
         list.createTask("title", "", "2020-01-01");
-        list.readList();
+        size = list.getTaskSize();
 
-        //assertEquals("0) [2020-01-01] title: ", out.toString());
-        fail();
+        assertEquals(2, size);
     }
 
     @Test
@@ -21,9 +22,9 @@ public class TaskListTest {
 
         try {
             list.createTask("title", "", "2020-01-01");
-            message = list.getItem(0).getCompleted().toString();
+            message = list.getTaskItem(0).getCompleted().toString();
             list.markTask(0);
-            message = list.getItem(0).getCompleted().toString();
+            message = list.getTaskItem(0).getCompleted().toString();
         }
         catch (Exception e) {
             message = e.getMessage();
@@ -39,9 +40,9 @@ public class TaskListTest {
 
         try {
             list.createTask("title", "", "2020-01-01");
-            message = list.getItem(0).getCompleted().toString();
+            message = list.getTaskItem(0).getCompleted().toString();
             list.markTask(2);
-            message = list.getItem(0).getCompleted().toString();
+            message = list.getTaskItem(0).getCompleted().toString();
         }
         catch (Exception e) {
             message = e.getMessage();
@@ -58,7 +59,7 @@ public class TaskListTest {
         list.createTask("title", "", "2020-01-01");
         try {
             list.editTask(0, "Brand New Title", "A Very Well Written Description", "2039-05-06");
-            didItChange = list.getItem(0).getTitle();
+            didItChange = list.getTaskItem(0).getTitle();
         }
         catch (Exception e) {
             didItChange = e.getMessage();
@@ -75,7 +76,7 @@ public class TaskListTest {
         list.createTask("title", "", "2020-01-01");
         try {
             list.editTask(0, "Brand New Title", "A Very Well Written Description", "2039-05-06");
-            didItChange = list.getItem(0).getDescription();
+            didItChange = list.getTaskItem(0).getDescription();
         }
         catch (Exception e) {
             didItChange = e.getMessage();
@@ -92,7 +93,7 @@ public class TaskListTest {
         list.createTask("title", "", "2020-01-01");
         try {
             list.editTask(2, "Brand New Title", "A Very Well Written Description", "2039-05-06");
-            didItChange = list.getItem(0).getDescription();
+            didItChange = list.getTaskItem(0).getDescription();
         }
         catch (Exception e) {
             didItChange = e.getMessage();
@@ -109,7 +110,7 @@ public class TaskListTest {
         list.createTask("title", "", "2020-01-01");
         try {
             list.editTask(0, "Brand New Title", "A Very Well Written Description", "2039-05-06");
-            didItChange = list.getItem(0).getDueDate();
+            didItChange = list.getTaskItem(0).getDueDate();
         }
         catch (Exception e) {
             didItChange = e.getMessage();
@@ -126,7 +127,7 @@ public class TaskListTest {
         list.createTask("title", "", "2020-01-01");
         try {
             list.editTask(2, "Brand New Title", "A Very Well Written Description", "2039-05-06");
-            didItChange = list.getItem(0).getDueDate();
+            didItChange = list.getTaskItem(0).getDueDate();
         }
         catch (Exception e) {
             didItChange = e.getMessage();
@@ -143,7 +144,7 @@ public class TaskListTest {
         list.createTask("title", "", "2020-01-01");
         try {
             list.editTask(0, "Brand New Title", "A Very Well Written Description", "2039-05-06");
-            didItChange = list.getItem(0).getTitle();
+            didItChange = list.getTaskItem(0).getTitle();
         }
         catch (Exception e) {
             didItChange = e.getMessage();
@@ -160,7 +161,7 @@ public class TaskListTest {
         list.createTask("title", "", "2020-01-01");
         try {
             list.editTask(2, "Brand New Title", "A Very Well Written Description", "2039-05-06");
-            didItChange = list.getItem(0).getTitle();
+            didItChange = list.getTaskItem(0).getTitle();
         }
         catch (Exception e) {
             didItChange = e.getMessage();
@@ -176,7 +177,7 @@ public class TaskListTest {
 
         list.createTask("title", "description", "2020-01-01");
         try {
-            message = list.getItem(2).getDescription();
+            message = list.getTaskItem(2).getDescription();
         }
         catch (Exception e) {
             message = e.getMessage();
@@ -192,7 +193,7 @@ public class TaskListTest {
 
         list.createTask("title", "description", "2020-01-01");
         try {
-            message = list.getItem(0).getDescription();
+            message = list.getTaskItem(0).getDescription();
         }
         catch (Exception e) {
             message = e.getMessage();
@@ -208,7 +209,7 @@ public class TaskListTest {
 
         list.createTask("title", "description", "2020-01-01");
         try {
-            message = list.getItem(2).getDueDate();
+            message = list.getTaskItem(2).getDueDate();
         }
         catch (Exception e) {
             message = e.getMessage();
@@ -224,7 +225,7 @@ public class TaskListTest {
 
         list.createTask("title", "description", "2020-01-01");
         try {
-            message = list.getItem(0).getDueDate();
+            message = list.getTaskItem(0).getDueDate();
         }
         catch (Exception e) {
             message = e.getMessage();
@@ -240,7 +241,7 @@ public class TaskListTest {
 
         list.createTask("title", "description", "2020-01-01");
         try {
-            message = list.getItem(2).getTitle();
+            message = list.getTaskItem(2).getTitle();
         }
         catch (Exception e) {
             message = e.getMessage();
@@ -256,7 +257,7 @@ public class TaskListTest {
 
         list.createTask("title", "description", "2020-01-01");
         try {
-            message = list.getItem(0).getTitle();
+            message = list.getTaskItem(0).getTitle();
         }
         catch (Exception e) {
             message = e.getMessage();
@@ -266,54 +267,75 @@ public class TaskListTest {
     }
 
     @Test
-    public void newTaskListIsEmpty() {        // TODO make JUnit work with reading the console
+    public void newTaskListIsEmpty() {
         TaskList list = new TaskList();
-        list.readList();
-        fail();
+        String message = "";
+
+        try {
+            int size = list.getTaskSize();
+            if (size == 0)
+                message = "" + size;
+            else
+                message = "Completed Edit.";
+        }
+        catch (Exception e) {
+            message = e.getMessage();
+        }
+
+        assertEquals("0", message);
     }
 
     @Test
-    public void removingTaskItemsDecreasesSize() {        // TODO make JUnit work with reading the console
+    public void removingTaskItemsDecreasesSize() {
+        TaskList list = new TaskList();
+        String message = "";
         try {
-            TaskList list = new TaskList();
-
             list.createTask("title", "description", "2020-01-01");
-            list.createTask("Brand New Title", "A Very Well Written Description", "2039-05-06");
-            list.readList();
-
+            message = "" + list.getTaskSize();
             list.destroyTask(0);
-            list.readList();
+            message = "" + list.getTaskSize();
         }
         catch (Exception e) {
             System.out.printf(e.getMessage());
         }
-        fail();
+
+        assertEquals("0", message);
     }
 
     @Test
-    public void removingTaskItemsFailsWithInvalidIndex() {        // TODO make JUnit work with reading the console
-        try {
-            TaskList list = new TaskList();
+    public void removingTaskItemsFailsWithInvalidIndex() {
+        TaskList list = new TaskList();
+        String message = "";
 
+        try {
             list.createTask("title", "description", "2020-01-01");
             list.createTask("Brand New Title", "A Very Well Written Description", "2039-05-06");
-            list.readList();
-
             list.destroyTask(5);
-            list.readList();
         }
         catch (Exception e) {
-            System.out.printf(e.getMessage());
+            message = e.getMessage();
         }
-        fail();
+        assertEquals("WARNING: that task doesn't exist", message);
     }
 
     @Test
-    public void savedTaskListCanBeLoaded() {        // TODO make JUnit work with reading the console
+    public void savedTaskListCanBeLoaded() {
         TaskList list = new TaskList();
-        list.loadList("test.txt");
-        list.readList();
-        fail();
+        String message = "";
+        try {
+            list.createTask("title", "description", "2020-01-01");
+            list.saveList("test.txt");
+
+            TaskList newList = new TaskList();
+            newList.loadList("test.txt");
+
+            message = "Load Completed.";
+        }
+        catch (Exception e) {
+            message = e.getMessage();
+        }
+
+        assertEquals("Load Completed.", message);
     }
 
     @Test
@@ -323,10 +345,10 @@ public class TaskListTest {
 
         try {
             list.createTask("title", "", "2020-01-01");
-            message = list.getItem(0).getCompleted().toString();
+            message = list.getTaskItem(0).getCompleted().toString();
             list.markTask(0);
             list.unMarkTask(0);
-            message = list.getItem(0).getCompleted().toString();
+            message = list.getTaskItem(0).getCompleted().toString();
         }
         catch (Exception e) {
             message = e.getMessage();
@@ -342,10 +364,10 @@ public class TaskListTest {
 
         try {
             list.createTask("title", "", "2020-01-01");
-            message = list.getItem(0).getCompleted().toString();
+            message = list.getTaskItem(0).getCompleted().toString();
             list.markTask(0);
             list.unMarkTask(2);
-            message = list.getItem(0).getCompleted().toString();
+            message = list.getTaskItem(0).getCompleted().toString();
         }
         catch (Exception e) {
             message = e.getMessage();

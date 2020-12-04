@@ -6,12 +6,14 @@ import java.io.FileNotFoundException;
 public class TaskList {
     private ArrayList<TaskItem> taskData, tasksCompleted, tasksInComplete;
 
+
     public TaskList()
     {
         taskData = new ArrayList<>();
         tasksCompleted = new ArrayList<>();
         tasksInComplete = new ArrayList<>();
     }
+
 
     public void readList()
     {
@@ -22,6 +24,7 @@ public class TaskList {
                 System.out.printf("\n%d) [%s] %s: %s", taskData.indexOf(n), n.getDueDate(), n.getTitle(), n.getDescription());
         });
     }
+
 
     public void readCompletedList()
     {
@@ -34,6 +37,7 @@ public class TaskList {
         tasksCompleted.forEach((n) -> System.out.printf("\n%d) [%s] %s: %s", tasksCompleted.indexOf(n), n.getDueDate(), n.getTitle(), n.getDescription()));
     }
 
+
     public void readInCompleteList()
     {
         tasksInComplete.clear();
@@ -44,6 +48,7 @@ public class TaskList {
         });
         tasksInComplete.forEach((n) -> System.out.printf("\n%d) [%s] %s: %s", tasksInComplete.indexOf(n), n.getDueDate(), n.getTitle(), n.getDescription()));
     }
+
 
     public void createTask(String title, String description, String dueDate)
     {
@@ -56,16 +61,13 @@ public class TaskList {
         }
     }
 
-    public void editTask(int index, String title, String description, String dueDate) throws Exception {
+
+    public void editTask(int index, String title, String description, String dueDate) throws Exception
+    {
         try
         {
-            TaskItem taskToEdit = taskData.get(index);
-
-            taskToEdit.setTitle(title);
-            taskToEdit.setDescription(description);
-            taskToEdit.setDueDate(dueDate);
-
-            taskData.set(index, taskToEdit);
+            TaskItem edittedTask = new TaskItem(title, description, dueDate);
+            taskData.set(index, edittedTask);
         }
         catch (IndexOutOfBoundsException e)
         {
@@ -77,7 +79,9 @@ public class TaskList {
         }
     }
 
-    public void destroyTask(int index) throws Exception {
+
+    public void destroyTask(int index) throws Exception
+    {
         try
         {
             taskData.remove(index);
@@ -87,7 +91,9 @@ public class TaskList {
         }
     }
 
-    public void markTask(int index) throws Exception {
+
+    public void markTask(int index) throws Exception
+    {
         try
         {
             TaskItem taskToMark = taskData.get(index);
@@ -100,7 +106,9 @@ public class TaskList {
         }
     }
 
-    public void unMarkTask(int index) throws Exception {
+
+    public void unMarkTask(int index) throws Exception
+    {
         try
         {
             TaskItem taskToUnMark = taskData.get(index);
@@ -113,6 +121,7 @@ public class TaskList {
         }
     }
 
+
     public void saveList(String filename)
     {
         try (Formatter output = new Formatter(filename))
@@ -124,6 +133,7 @@ public class TaskList {
             e.printStackTrace();
         }
     }
+
 
     public void loadList(String filename)
     {
@@ -144,13 +154,20 @@ public class TaskList {
         }
     }
 
+
     // for JUnit Testing
-    public TaskItem getItem(int index) throws Exception {
+    public TaskItem getTaskItem(int index) throws Exception
+    {
         try {
             return taskData.get(index);
         }
         catch (IndexOutOfBoundsException e) {
             throw new Exception("WARNING: that task doesn't exist");
         }
+    }
+
+    public int getTaskSize()
+    {
+        return taskData.size();
     }
 }

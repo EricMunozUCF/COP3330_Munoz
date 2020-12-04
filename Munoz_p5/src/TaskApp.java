@@ -3,24 +3,26 @@ import java.util.Scanner;
 public class TaskApp {
 
 
+    /*
     public static void main(String[] args)
     {
-        mainMenuLoop();
+        taskMenuLoop();
     }
+    */
 
 
-    public static void mainMenuLoop()
+    public static void taskMenuLoop()
     {
-        int mainMenuChoice;
+        int taskMenuChoice;
 
         while (true)
         {
             System.out.printf("\nMain Menu" + "\n---------\n" + "\n1) create a new list"
                     + "\n2) load an existing list" + "\n3) quit");
 
-            mainMenuChoice = menuInput();
+            taskMenuChoice = MainApp.menuInput();
 
-            switch (mainMenuChoice) {
+            switch (taskMenuChoice) {
                 case 1:    // create new list
                     initializeList();
                     break;
@@ -34,14 +36,14 @@ public class TaskApp {
     }
 
 
-    public static void initializeList()
+    private static void initializeList()
     {
         TaskList taskData = new TaskList();
         System.out.printf("new task list has been created");
         listOpMenuLoop(taskData);
     }
 
-    public static void existingList()
+    private static void existingList()
     {
         TaskList taskData = new TaskList();
         Scanner scanner = new Scanner(System.in);
@@ -55,7 +57,7 @@ public class TaskApp {
         listOpMenuLoop(taskData);
     }
 
-    public static void listOpMenuLoop(TaskList taskData)
+    private static void listOpMenuLoop(TaskList taskData)
     {
         int listOpMenuChoice;
 
@@ -65,7 +67,7 @@ public class TaskApp {
                     + "\n3) edit an item" + "\n4) remove an item" + "\n5) mark an item as completed"
                     + "\n6) unmark an item as completed" + "\n7) save the current list" + "\n8) quit to the main menu");
 
-            listOpMenuChoice = menuInput();
+            listOpMenuChoice = MainApp.menuInput();
 
             switch (listOpMenuChoice)
             {
@@ -97,17 +99,7 @@ public class TaskApp {
     }
 
 
-    public static int menuInput()
-    {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.printf("\n\n> ");
-
-        return scanner.nextInt();
-    }
-
-
-    public static void viewList(TaskList taskData)  // 1
+    private static void viewList(TaskList taskData)  // 1
     {
         System.out.printf("Current Tasks" + "\n-------------\n");
         taskData.readList();
@@ -116,7 +108,7 @@ public class TaskApp {
     }
 
 
-    public static void addTask(TaskList taskData)   // 2
+    private static void addTask(TaskList taskData)   // 2
     {
         Scanner scanner = new Scanner(System.in);
         String title, description, dueDate;
@@ -132,7 +124,7 @@ public class TaskApp {
     }
 
 
-    public static void modifyList(TaskList taskData)    // 3
+    private static void modifyList(TaskList taskData)    // 3
     {
         Scanner scanner = new Scanner(System.in);
         int chosenTask;
@@ -158,7 +150,7 @@ public class TaskApp {
     }
 
 
-    public static void removeTask(TaskList taskData)    // 4
+    private static void removeTask(TaskList taskData)    // 4
     {
         Scanner scanner = new Scanner(System.in);
         int chosenTask;
@@ -176,7 +168,7 @@ public class TaskApp {
     }
 
 
-    public static void markTask(TaskList taskData)  // 5
+    private static void markTask(TaskList taskData)  // 5
     {
         Scanner scanner = new Scanner(System.in);
         int chosenTask;
@@ -196,7 +188,7 @@ public class TaskApp {
     }
 
 
-    public static void unMarkTask(TaskList taskData) // 6
+    private static void unMarkTask(TaskList taskData) // 6
     {
         Scanner scanner = new Scanner(System.in);
         int chosenTask;
@@ -216,7 +208,7 @@ public class TaskApp {
     }
 
 
-    public static void saveList(TaskList taskData)  // 7
+    private static void saveList(TaskList taskData)  // 7
     {
         Scanner scanner = new Scanner(System.in);
         String filename;
